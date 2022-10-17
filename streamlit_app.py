@@ -16,9 +16,13 @@ In the meantime, below is an example of what you can do with just a few lines of
 """
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+with st.title("Battery life prediction"):
+    total_points = st.slider("Max. Voltage Dischar. (V)", 1.000,3.043 , 4.363)
+    total_points = st.slider("Min. Voltage Dischar. (V)", 1.000, 3.022, 4.376)
+    total_points = st.slider("Discharge Time (s)", 1.00, 8.69, 949261.22)
+    total_points = st.slider("Time constant current (s)", 1.00, 5.98, 880728.10)
+    
+    num_turns = st.slider(("RUL", 0, 500, 1133)
 
     Point = namedtuple('Point', 'x y')
     data = []
