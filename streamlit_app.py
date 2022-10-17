@@ -29,14 +29,20 @@ with st.title("Battery life prediction"):
 
     points_per_turn = total_points / num_turns
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+     markers =df.value.ge(thresh)
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+    # copy dates of the above row
+    df['last_day'] = np.nan
+    df.loc[markers, 'last_day'] = df.timestamp
+
+    # back fill those dates 
+    df['last_day'] = df['last_day'].bfill().astype('datetime64[ns]')
+
+    df['RUL'] = (df.last_day - df.timestamp).dt.days
+
+    # drop the columns if necessary,
+    # remove this line to better see how the code works
+    df.drop('last_day', axis=1, inplace=True)
+
+
+calc_rul(df, 300)
