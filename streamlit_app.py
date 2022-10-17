@@ -16,23 +16,32 @@ In the meantime, below is an example of what you can do with just a few lines of
 """
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+pip install streamlit
+import streamlit as st
 
-    Point = namedtuple('Point', 'x y')
-    data = []
 
-    points_per_turn = total_points / num_turns
+df =pickle.load(open('df.pkl','rb'))
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+st.title("Battery life prediction") pip install sklearn
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+maxVoltage = st.selectbox('Max. Voltage Dischar. (V)',df['Max. Voltage Dischar. (V)'].unique())
+
+minVoltage = st.selectbox('Min. Voltage Charg. (V)',df['Min. Voltage Charg. (V)'].unique())
+
+time = st.selectbox('Time at 4.15V (s)',df['Time at 4.15V (s)'].unique())
+
+timeconstantcurrent = st.selectbox('Time constant current (s)',df['Time constant current (s)'].unique())
+
+DischargeTime = st.selectbox('Discharge Time (s)',df['Discharge Time (s)'].unique())
+
+chargingtime = st.selectbox('Charging time (s)',df['Charging time (s)'].unique())
+
+RUL = st.number_input('RUL')
+
+if st.button('Predict Battery life'):
+    pass
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
